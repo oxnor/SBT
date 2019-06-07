@@ -1,6 +1,11 @@
 package ru.shaa.sbt.shoppingmngr;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.shaa.sbt.shoppingmngr.Entities.ScheduleType;
+import ru.shaa.sbt.shoppingmngr.Repositories.IScheduleTypeRepository;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/plan")
@@ -32,5 +37,15 @@ public class PlanController {
             response = new BaseResponse(ERROR_STATUS, AUTH_FAILURE);
         }
         return response;
+    }
+
+    @Autowired
+    IScheduleTypeRepository scheduleTypeRepository;
+
+    @GetMapping("ScheduleTypes")
+    public List<ScheduleType> ScheduleTypeGetAll()
+    {
+        List<ScheduleType> scheduleTypesList = scheduleTypeRepository.GetAll();
+        return scheduleTypesList;
     }
 }
