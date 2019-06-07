@@ -1,4 +1,4 @@
-package ru.shaa.sbt.shoppingmngr.model;
+package ru.shaa.sbt.shoppingmngr.Entities;
 
 public class ScheduleType
 {
