@@ -19,6 +19,6 @@ public class ScheduleTypeRepository implements IScheduleTypeRepository {
 
     @Override
     public List<ScheduleType> GetAll() {
-        return jdbcTemplate.query("SELECT * FROM appsch.rb_SchType rst", ROW_MAPPER);
+        return jdbcTemplate.query("appsch.ex_SchTypes", ROW_MAPPER);
     }
 }
