@@ -10,7 +10,7 @@ public class TaskRunOnceRepository implements ITaskRepository {
     @Override
     public TaskBase GetById(int ID) throws ScheduleTypeUnknownException {
         TaskRunOnce task = new TaskRunOnce();
-        jdbcTemplate.
+        //jdbcTemplate.
         return  task;
     }
 }

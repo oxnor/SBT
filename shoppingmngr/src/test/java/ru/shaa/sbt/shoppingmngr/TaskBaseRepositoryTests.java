@@ -4,18 +4,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.shaa.sbt.shoppingmngr.Entities.TaskBase;
-import ru.shaa.sbt.shoppingmngr.Repositories.ITaskRepository;
+import ru.shaa.sbt.shoppingmngr.Repositories.TaskBaseRepository;
 
 @SpringBootTest
-public class ITaskRepositoryTests {
+public class TaskBaseRepositoryTests {
     @Autowired
-    ITaskRepository taskRepository;
+    TaskBaseRepository taskRepository;
 
     @Test
     void testGetById()
     {
-        TaskBase task = taskRepository.GetById(7);
+        TaskBaseRepository.TaskDTO task = taskRepository.LoadTaskDTO(7);
         Assertions.assertNotNull(task);
     }
 }
