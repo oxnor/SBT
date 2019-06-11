@@ -2,6 +2,10 @@ package ru.shaa.sbt.shoppingmngr.Entities;
 
 public class ScheduleType
 {
+    int     ID;
+    String  Code;
+    String  Caption;
+
     public ScheduleType(int ID, String Code, String Caption)
     {
         this.ID = ID;
@@ -33,7 +37,4 @@ public class ScheduleType
         Caption = caption;
     }
 
-    int     ID;
-    String  Code;
-    String  Caption;
 }
