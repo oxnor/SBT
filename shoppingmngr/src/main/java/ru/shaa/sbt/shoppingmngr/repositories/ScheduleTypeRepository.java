@@ -1,8 +1,11 @@
 package ru.shaa.sbt.shoppingmngr.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.config.JdbcNamespaceHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 import ru.shaa.sbt.shoppingmngr.entities.ScheduleType;
 
@@ -16,12 +19,26 @@ public class ScheduleTypeRepository implements IScheduleTypeRepository {
                 , resultSet.getString("code")
                 , resultSet.getString("caption")
     );
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ScheduleTypeRepository(JdbcTemplate jdbcTemplate)
+    public ScheduleTypeRepository(NamedParameterJdbcTemplate jdbcTemplate)
     {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public ScheduleType getById(int id) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("id", id);
+        return jdbcTemplate.query("appsch.ex_SchTypes @Id_SchType = :id", params, scheduleTypeRowMapper).get(0);
+    }
+
+    @Override
+    public ScheduleType getByCode(String code) {
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("code", code);
+        return jdbcTemplate.query("appsch.ex_SchTypes @SchTypeCode = :code", params, scheduleTypeRowMapper).get(0);
     }
 
     @Override

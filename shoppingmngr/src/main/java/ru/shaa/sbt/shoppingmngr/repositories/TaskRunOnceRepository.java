@@ -28,7 +28,7 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);
         Map<String, Object> taskPrm = jdbcTemplate.queryForList("appsch.ex_TaskPrmRunOnce @Id_Task = :id", params).get(0);
-        ScheduleType scheduleType = new ScheduleType(1, "test", "test");
+        ScheduleType scheduleType = scheduleTypeRepository.getByCode(taskDTO.schType);
 
         TaskRunOnce task = new TaskRunOnce(id, taskDTO.begDate, taskDTO.endDate, scheduleType, ((Timestamp)taskPrm.get("RunDtm")).toLocalDateTime());
 
