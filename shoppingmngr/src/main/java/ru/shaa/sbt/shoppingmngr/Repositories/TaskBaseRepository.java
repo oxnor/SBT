@@ -2,6 +2,7 @@ package ru.shaa.sbt.shoppingmngr.Repositories;
 
 import com.fasterxml.jackson.databind.BeanProperty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
+@Qualifier("TaskBaseRepository")
 public class TaskBaseRepository implements ITaskRepository {
     protected NamedParameterJdbcTemplate jdbcTemplate;
 

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class TaskRunOnce extends TaskBase {
     LocalDateTime RunDateTime;
 
-    public TaskRunOnce(int ID, LocalDate begDate, LocalDate endDate, ScheduleType scheduleType, LocalDateTime runDateTime) {
+    public TaskRunOnce(int ID, LocalDateTime begDate, LocalDateTime endDate, ScheduleType scheduleType, LocalDateTime runDateTime) {
         super(ID, begDate, endDate, scheduleType);
         RunDateTime = runDateTime;
     }
