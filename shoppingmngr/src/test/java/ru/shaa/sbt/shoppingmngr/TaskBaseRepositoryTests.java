@@ -16,7 +16,7 @@ public class TaskBaseRepositoryTests {
     @Test
     void testGetById()
     {
-        TaskBaseRepository.TaskDTO task = taskRepository.LoadTaskDTO(7);
+        TaskBaseRepository.TaskDTO task = taskRepository.loadTaskDTO(7);
         Assertions.assertNotNull(task);
     }
 }

@@ -23,7 +23,7 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
 
     @Override
     public TaskRunOnce getById(int id) throws ScheduleTypeUnknownException {
-        TaskDTO taskDTO = LoadTaskDTO(id);
+        TaskDTO taskDTO = loadTaskDTO(id);
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("id", id);

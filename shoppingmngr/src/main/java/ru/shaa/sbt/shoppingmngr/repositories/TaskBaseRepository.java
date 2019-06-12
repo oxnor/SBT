@@ -22,7 +22,7 @@ public class TaskBaseRepository implements ITaskRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public TaskDTO LoadTaskDTO(int id)
+    public TaskDTO loadTaskDTO(int id)
     {
         RowMapper<TaskDTO> taskDTORowMapper = (ResultSet resultSet, int rowNum) -> {
             TaskDTO t = new TaskDTO();
