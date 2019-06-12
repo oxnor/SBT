@@ -8,6 +8,13 @@ public abstract class TaskBase {
     LocalDate EndDate;
     ScheduleType scheduleType;
 
+    public TaskBase(int ID, LocalDate begDate, LocalDate endDate, ScheduleType scheduleType) {
+        this.ID = ID;
+        BegDate = begDate;
+        EndDate = endDate;
+        this.scheduleType = scheduleType;
+    }
+
     public LocalDate getBegDate() {
         return BegDate;
     }
@@ -24,7 +31,6 @@ public abstract class TaskBase {
         EndDate = endDate;
     }
 
-
     public int getID() {
         return ID;
     }
@@ -32,7 +38,6 @@ public abstract class TaskBase {
     public void setID(int ID) {
         this.ID = ID;
     }
-
 
     public ScheduleType getScheduleType() {
         return scheduleType;

@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Component
 public class TaskBaseRepository implements ITaskRepository {
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    protected NamedParameterJdbcTemplate jdbcTemplate;
 
     @Autowired
     public TaskBaseRepository(NamedParameterJdbcTemplate jdbcTemplate)
