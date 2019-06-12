@@ -4,6 +4,7 @@ import ru.shaa.sbt.shoppingmngr.entities.TaskBase;
 
 public interface ITaskRepository {
     TaskBase getById(int id) throws ScheduleTypeUnknownException;
+    void save(TaskBase task);
 
     class ScheduleTypeUnknownException extends Exception
     {

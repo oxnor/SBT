@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import ru.shaa.sbt.shoppingmngr.entities.ScheduleType;
 import ru.shaa.sbt.shoppingmngr.entities.TaskRunOnce;
 
+import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.util.Map;
 
@@ -17,8 +18,8 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
     @Autowired
     IScheduleTypeRepository scheduleTypeRepository;
 
-    public TaskRunOnceRepository(NamedParameterJdbcTemplate jdbcTemplate) {
-        super(jdbcTemplate);
+    public TaskRunOnceRepository(NamedParameterJdbcTemplate jdbcTemplate, DataSource dataSource) {
+        super(jdbcTemplate, dataSource);
     }
 
     @Override

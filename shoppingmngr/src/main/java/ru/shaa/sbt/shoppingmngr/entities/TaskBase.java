@@ -3,12 +3,12 @@ package ru.shaa.sbt.shoppingmngr.entities;
 import java.time.LocalDateTime;
 
 public abstract class TaskBase {
-    int id;
+    Integer id;
     LocalDateTime begDate;
     LocalDateTime endDate;
     ScheduleType scheduleType;
 
-    public TaskBase(int id, LocalDateTime begDate, LocalDateTime endDate, ScheduleType scheduleType) {
+    public TaskBase(Integer id, LocalDateTime begDate, LocalDateTime endDate, ScheduleType scheduleType) {
         this.id = id;
         this.begDate = begDate;
         this.endDate = endDate;
@@ -31,11 +31,11 @@ public abstract class TaskBase {
         this.endDate = endDate;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

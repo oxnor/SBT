@@ -3,23 +3,31 @@ package ru.shaa.sbt.shoppingmngr.repositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 import ru.shaa.sbt.shoppingmngr.entities.TaskBase;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Component
 @Qualifier("TaskBaseRepository")
 public class TaskBaseRepository implements ITaskRepository {
     protected NamedParameterJdbcTemplate jdbcTemplate;
+    protected DataSource dataSource;
 
     @Autowired
-    public TaskBaseRepository(NamedParameterJdbcTemplate jdbcTemplate)
+    public TaskBaseRepository(NamedParameterJdbcTemplate jdbcTemplate, DataSource dataSource)
     {
         this.jdbcTemplate = jdbcTemplate;
+        this.dataSource = dataSource;
     }
 
     public TaskDTO loadTaskDTO(int id)
@@ -42,6 +50,33 @@ public class TaskBaseRepository implements ITaskRepository {
     @Override
     public TaskBase getById(int id) throws ScheduleTypeUnknownException {
         return null;
+    }
+
+    @Override
+    public void save(TaskBase task) {
+        if (task.getId() == null)
+            create(task);
+        else 
+            update(task);
+    }
+
+    private void create(TaskBase task) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskCreate");
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("SchTypeCode", task.getScheduleType().getCode());
+        params.addValue("BegDtm", task.getBegDate());
+        params.addValue("EndDtm", task.getEndDate());
+
+        Map<String, Object> out = jdbcCall.execute(params);
+
+        task.setId((Integer) out.get("ID"));
+    }
+
+    //TODO
+    private void update(TaskBase task) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public class TaskDTO
