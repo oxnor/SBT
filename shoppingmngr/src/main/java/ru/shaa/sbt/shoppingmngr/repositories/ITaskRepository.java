@@ -1,9 +1,9 @@
-package ru.shaa.sbt.shoppingmngr.Repositories;
+package ru.shaa.sbt.shoppingmngr.repositories;
 
-import ru.shaa.sbt.shoppingmngr.Entities.TaskBase;
+import ru.shaa.sbt.shoppingmngr.entities.TaskBase;
 
 public interface ITaskRepository {
-    TaskBase GetById(int ID) throws ScheduleTypeUnknownException;
+    TaskBase getById(int id) throws ScheduleTypeUnknownException;
 
     class ScheduleTypeUnknownException extends Exception
     {

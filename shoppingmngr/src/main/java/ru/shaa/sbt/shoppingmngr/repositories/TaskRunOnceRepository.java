@@ -1,18 +1,14 @@
-package ru.shaa.sbt.shoppingmngr.Repositories;
+package ru.shaa.sbt.shoppingmngr.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
-import ru.shaa.sbt.shoppingmngr.Entities.ScheduleType;
-import ru.shaa.sbt.shoppingmngr.Entities.TaskBase;
-import ru.shaa.sbt.shoppingmngr.Entities.TaskRunOnce;
+import ru.shaa.sbt.shoppingmngr.entities.ScheduleType;
+import ru.shaa.sbt.shoppingmngr.entities.TaskRunOnce;
 
-import javax.management.Query;
 import java.sql.Timestamp;
-import java.util.List;
 import java.util.Map;
 
 @Component
@@ -26,15 +22,15 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
     }
 
     @Override
-    public TaskRunOnce GetById(int ID) throws ScheduleTypeUnknownException {
-        TaskDTO taskDTO = LoadTaskDTO(ID);
+    public TaskRunOnce getById(int id) throws ScheduleTypeUnknownException {
+        TaskDTO taskDTO = LoadTaskDTO(id);
 
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("ID", ID);
-        Map<String, Object> taskPrm = jdbcTemplate.queryForList("appsch.ex_TaskPrmRunOnce @Id_Task = :ID", params).get(0);
+        params.addValue("id", id);
+        Map<String, Object> taskPrm = jdbcTemplate.queryForList("appsch.ex_TaskPrmRunOnce @Id_Task = :id", params).get(0);
         ScheduleType scheduleType = new ScheduleType(1, "test", "test");
 
-        TaskRunOnce task = new TaskRunOnce(ID, taskDTO.BegDate, taskDTO.EndDate, scheduleType, ((Timestamp)taskPrm.get("RunDtm")).toLocalDateTime());
+        TaskRunOnce task = new TaskRunOnce(id, taskDTO.begDate, taskDTO.endDate, scheduleType, ((Timestamp)taskPrm.get("RunDtm")).toLocalDateTime());
 
         return  task;
     }

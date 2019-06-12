@@ -2,8 +2,8 @@ package ru.shaa.sbt.shoppingmngr;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import ru.shaa.sbt.shoppingmngr.Entities.ScheduleType;
-import ru.shaa.sbt.shoppingmngr.Repositories.IScheduleTypeRepository;
+import ru.shaa.sbt.shoppingmngr.entities.ScheduleType;
+import ru.shaa.sbt.shoppingmngr.repositories.IScheduleTypeRepository;
 
 import java.util.List;
 
@@ -43,9 +43,9 @@ public class PlanController {
     IScheduleTypeRepository scheduleTypeRepository;
 
     @GetMapping("ScheduleTypes")
-    public List<ScheduleType> ScheduleTypeGetAll()
+    public List<ScheduleType> scheduleTypeGetAll()
     {
-        List<ScheduleType> scheduleTypesList = scheduleTypeRepository.GetAll();
+        List<ScheduleType> scheduleTypesList = scheduleTypeRepository.getAll();
         return scheduleTypesList;
     }
 }

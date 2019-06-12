@@ -1,43 +1,42 @@
-package ru.shaa.sbt.shoppingmngr.Entities;
+package ru.shaa.sbt.shoppingmngr.entities;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public abstract class TaskBase {
-    int ID;
-    LocalDateTime BegDate;
-    LocalDateTime EndDate;
+    int id;
+    LocalDateTime begDate;
+    LocalDateTime endDate;
     ScheduleType scheduleType;
 
-    public TaskBase(int ID, LocalDateTime begDate, LocalDateTime endDate, ScheduleType scheduleType) {
-        this.ID = ID;
-        BegDate = begDate;
-        EndDate = endDate;
+    public TaskBase(int id, LocalDateTime begDate, LocalDateTime endDate, ScheduleType scheduleType) {
+        this.id = id;
+        this.begDate = begDate;
+        this.endDate = endDate;
         this.scheduleType = scheduleType;
     }
 
     public LocalDateTime getBegDate() {
-        return BegDate;
+        return begDate;
     }
 
     public void setBegDate(LocalDateTime begDate) {
-        BegDate = begDate;
+        this.begDate = begDate;
     }
 
     public LocalDateTime getEndDate() {
-        return EndDate;
+        return endDate;
     }
 
     public void setEndDate(LocalDateTime endDate) {
-        EndDate = endDate;
+        this.endDate = endDate;
     }
 
-    public int getID() {
-        return ID;
+    public int getId() {
+        return id;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ScheduleType getScheduleType() {
