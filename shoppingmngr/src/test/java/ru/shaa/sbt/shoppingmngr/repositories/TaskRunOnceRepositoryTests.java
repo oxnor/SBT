@@ -1,4 +1,4 @@
-package ru.shaa.sbt.shoppingmngr;
+package ru.shaa.sbt.shoppingmngr.repositories;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
