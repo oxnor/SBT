@@ -74,9 +74,17 @@ public class TaskBaseRepository implements ITaskRepository {
         task.setId((Integer) out.get("ID"));
     }
 
-    //TODO
     private void update(TaskBase task) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskUpdate");
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("ID", task.getId());
+        params.addValue("SchTypeCode", task.getScheduleType().getCode());
+        params.addValue("BegDtm", task.getBegDate());
+        params.addValue("EndDtm", task.getEndDate());
+
+        Map<String, Object> out = jdbcCall.execute(params);
     }
 
     public class TaskDTO

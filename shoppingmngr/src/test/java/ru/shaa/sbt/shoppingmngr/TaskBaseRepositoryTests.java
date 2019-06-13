@@ -18,17 +18,29 @@ public class TaskBaseRepositoryTests {
     TaskBaseRepository taskRepository;
 
     @Test
-    void testSave()
-    {
-        TaskRunOnce task = new TaskRunOnce(null, LocalDateTime.parse("2019-07-08T00:00"), LocalDateTime.parse("2019-07-23T00:00"), new ScheduleType(1, "RUN_ONCE", ""), LocalDateTime.parse("2019-07-08T14:40"));
-        taskRepository.save(task);
-        Assertions.assertNotNull(task.getId());
-    }
-
-    @Test
     void testGetById()
     {
         TaskBaseRepository.TaskDTO task = taskRepository.loadTaskDTO(7);
         Assertions.assertNotNull(task);
+    }
+
+    @Test
+    void testSave()
+    {
+        TaskRunOnce task = new TaskRunOnce(null, LocalDateTime.parse("2019-07-08T00:00"), LocalDateTime.parse("2019-07-23T00:00"), new ScheduleType(1, "RUN_ONCE", ""), LocalDateTime.parse("2019-07-08T14:40"));
+        taskRepository.save(task);
+        Assertions.assertNotNull(task.getId(), "У сохраненного задания отсутствует идентификатор");
+    }
+
+    @Test
+    void testUpdate()
+    {
+        TaskRunOnce task = new TaskRunOnce(null, LocalDateTime.parse("2019-07-08T00:00"), LocalDateTime.parse("2019-07-23T00:00"), new ScheduleType(1, "RUN_ONCE", ""), LocalDateTime.parse("2019-07-08T14:40"));
+        taskRepository.save(task);
+        Assertions.assertNotNull(task.getId());
+        task.setBegDate(LocalDateTime.parse("2019-08-08T00:00"));
+        task.setEndDate(LocalDateTime.parse("2019-08-23T00:00"));
+        task.setScheduleType(new ScheduleType(1, "RUN_ONCE", ""));
+        taskRepository.save(task);
     }
 }
