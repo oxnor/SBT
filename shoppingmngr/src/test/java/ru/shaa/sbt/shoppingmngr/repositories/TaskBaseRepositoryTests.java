@@ -33,9 +33,18 @@ public class TaskBaseRepositoryTests {
     @Test
     void testSave()
     {
-        TaskRunOnce task = new TaskRunOnce(null, LocalDateTime.parse("2019-07-08T00:00"), LocalDateTime.parse("2019-07-23T00:00"), new ScheduleType(1, "RUN_ONCE", ""), LocalDateTime.parse("2019-07-08T14:40"));
+        TaskBase task = Mockito.mock(TaskBase.class);
+        ArgumentCaptor<Integer> taskIDCaptor = ArgumentCaptor.forClass(Integer.class);
+        when(task.getId()).thenReturn(null);
+        when(task.getBegDate()).thenReturn(LocalDateTime.parse("2019-07-08T00:00"));
+        when(task.getEndDate()).thenReturn(LocalDateTime.parse("2019-07-23T00:00"));
+        when(task.getScheduleType()).thenReturn(new ScheduleType(1, "RUN_ONCE", ""));
+
         taskRepository.save(task);
-        Assertions.assertNotNull(task.getId(), "У сохраненного задания отсутствует идентификатор");
+
+        Mockito.verify(task).setId(taskIDCaptor.capture());
+        Integer taskId = taskIDCaptor.getValue();
+        Assertions.assertNotNull(taskId, "У сохраненного задания отсутствует идентификатор");
     }
 
     @Test
