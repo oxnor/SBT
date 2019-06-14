@@ -12,6 +12,7 @@ import ru.shaa.sbt.shoppingmngr.entities.TaskBase;
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -31,18 +32,28 @@ public class TaskBaseRepository implements ITaskRepository {
     {
         RowMapper<TaskDTO> taskDTORowMapper = (ResultSet resultSet, int rowNum) -> {
             TaskDTO t = new TaskDTO();
-            t.id = resultSet.getInt("id");
+            t.id = resultSet.getInt("ID");
             t.begDate = resultSet.getTimestamp("BegDtm").toLocalDateTime();
             t.endDate = resultSet.getTimestamp("EndDtm").toLocalDateTime();
             t.schType = resultSet.getString("SchTypeCode");
             return t;
         };
 
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("ex_Tasks");
+        jdbcCall.returningResultSet("rs", taskDTORowMapper);
+
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("id", id);
-        TaskDTO taskDTO = jdbcTemplate.query("appsch.ex_Tasks @Id_Task = :id", params, taskDTORowMapper).get(0);
-        return taskDTO;
+        params.addValue("Id_Task", id);
+
+        Map<String, Object> out = jdbcCall.execute(params);
+        List<TaskDTO> taskDTOList = (List<TaskDTO>)out.get("rs");
+        if (taskDTOList != null && taskDTOList.size() != 0)
+        {
+            return taskDTOList.get(0);
+        }
+        return null;
     }
+
 
     @Override
     public TaskBase getById(int id) throws ScheduleTypeUnknownException {
@@ -80,6 +91,16 @@ public class TaskBaseRepository implements ITaskRepository {
         params.addValue("SchTypeCode", task.getScheduleType().getCode());
         params.addValue("BegDtm", task.getBegDate());
         params.addValue("EndDtm", task.getEndDate());
+
+        Map<String, Object> out = jdbcCall.execute(params);
+    }
+
+    @Override
+    public void delete(int id) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskDelete");
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("ID", id);
 
         Map<String, Object> out = jdbcCall.execute(params);
     }
