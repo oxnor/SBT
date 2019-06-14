@@ -3,17 +3,14 @@ package ru.shaa.sbt.shoppingmngr.repositories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 import ru.shaa.sbt.shoppingmngr.entities.TaskBase;
 
 import javax.sql.DataSource;
 import java.sql.ResultSet;
-import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.Map;
 
