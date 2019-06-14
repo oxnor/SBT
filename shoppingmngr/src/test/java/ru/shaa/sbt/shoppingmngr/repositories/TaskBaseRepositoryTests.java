@@ -24,7 +24,7 @@ public class TaskBaseRepositoryTests {
     TaskBaseRepository taskRepository;
 
     @Test
-    void testGetById()
+    void testLoadTaskDTO()
     {
         TaskBaseRepository.TaskDTO task = taskRepository.loadTaskDTO(7);
         Assertions.assertNotNull(task);
