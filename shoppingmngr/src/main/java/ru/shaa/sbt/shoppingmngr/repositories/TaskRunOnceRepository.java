@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 import ru.shaa.sbt.shoppingmngr.entities.ScheduleType;
+import ru.shaa.sbt.shoppingmngr.entities.TaskBase;
 import ru.shaa.sbt.shoppingmngr.entities.TaskRunOnce;
 
 import javax.sql.DataSource;
@@ -20,6 +22,24 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
 
     public TaskRunOnceRepository(NamedParameterJdbcTemplate jdbcTemplate, DataSource dataSource) {
         super(jdbcTemplate, dataSource);
+    }
+
+    @Override
+    public void save(TaskBase task) {
+        TaskRunOnce taskRunOnce = (TaskRunOnce)task;
+        boolean isNew = (task.getId() == null);
+        super.save(task);
+        PrmSave(taskRunOnce);
+    }
+
+    private void PrmSave(TaskRunOnce task) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("CrUpd");
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("Id_Task", task.getId());
+        params.addValue("RunDtm", task.getRunDateTime());
+        jdbcCall.execute(params);
     }
 
     @Override

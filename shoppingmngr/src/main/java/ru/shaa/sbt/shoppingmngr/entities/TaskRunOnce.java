@@ -9,4 +9,14 @@ public class TaskRunOnce extends TaskBase {
         super(id, begDate, endDate, scheduleType);
         this.runDateTime = runDateTime;
     }
+
+    public LocalDateTime getRunDateTime() {
+        return runDateTime;
+    }
+
+    public void setRunDateTime(LocalDateTime runDateTime) {
+        this.runDateTime = runDateTime;
+    }
+
+
 }
