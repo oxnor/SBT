@@ -1,6 +1,5 @@
 package ru.shaa.sbt.shoppingmngr.repositories;
 
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,7 +11,6 @@ import ru.shaa.sbt.shoppingmngr.entities.TaskBase;
 import ru.shaa.sbt.shoppingmngr.entities.TaskWeekly;
 
 import javax.sql.DataSource;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
