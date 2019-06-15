@@ -28,12 +28,11 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
     @Override
     public void save(TaskBase task) {
         TaskRunOnce taskRunOnce = (TaskRunOnce)task;
-        boolean isNew = (task.getId() == null);
         super.save(task);
-        PrmSave(taskRunOnce);
+        prmSave(taskRunOnce);
     }
 
-    private void PrmSave(TaskRunOnce task) {
+    private void prmSave(TaskRunOnce task) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskPrmRunOnceCrUpd");
 
         MapSqlParameterSource params = new MapSqlParameterSource();
@@ -83,7 +82,7 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
 
         Map<String, Object> out = jdbcCall.execute(params);
         List<TaskPrmRunOnceDTO> prmDTO = (List<TaskPrmRunOnceDTO>)out.get("rs");
-        if (prmDTO != null && prmDTO.size() != 0)
+        if (prmDTO != null && prmDTO.isEmpty())
         {
             return prmDTO.get(0);
         }
