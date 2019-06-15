@@ -11,7 +11,8 @@ import ru.shaa.sbt.shoppingmngr.entities.TaskBase;
 import ru.shaa.sbt.shoppingmngr.entities.TaskRunOnce;
 
 import javax.sql.DataSource;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -56,14 +57,47 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
     @Override
     public TaskRunOnce getById(int id) {
         TaskDTO taskDTO = loadTaskDTO(id);
-
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("id", id);
-        Map<String, Object> taskPrm = jdbcTemplate.queryForList("appsch.ex_TaskPrmRunOnce @Id_Task = :id", params).get(0);
+        TaskPrmRunOnceDTO prmDTO = loadPrmDTO(id);
         ScheduleType scheduleType = scheduleTypeRepository.getByCode(taskDTO.schType);
 
-        TaskRunOnce task = new TaskRunOnce(id, taskDTO.begDate, taskDTO.endDate, scheduleType, ((Timestamp)taskPrm.get("RunDtm")).toLocalDateTime());
+        //TODO кидать исключение если prmDTO = null
+        TaskRunOnce task = new TaskRunOnce(id, taskDTO.begDate, taskDTO.endDate, scheduleType, prmDTO != null? prmDTO.runDtm: null);
 
         return  task;
+    }
+
+    TaskPrmRunOnceDTO loadPrmDTO(int idTask)
+    {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("ex_TaskPrmRunOnce");
+        jdbcCall.returningResultSet("rs"
+                , ((rs, i) -> new TaskPrmRunOnceDTO(
+                        rs.getInt("Id_Task")
+                        , rs.getTimestamp("RunDtm").toLocalDateTime()
+                )
+                )
+        );
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("Id_Task", idTask);
+
+        Map<String, Object> out = jdbcCall.execute(params);
+        List<TaskPrmRunOnceDTO> prmDTO = (List<TaskPrmRunOnceDTO>)out.get("rs");
+        if (prmDTO != null && prmDTO.size() != 0)
+        {
+            return prmDTO.get(0);
+        }
+        return null;
+    }
+
+    class TaskPrmRunOnceDTO
+    {
+        int idTask;
+        LocalDateTime runDtm;
+
+        TaskPrmRunOnceDTO(int idTask, LocalDateTime runDtm)
+        {
+            this.idTask = idTask;
+            this.runDtm = runDtm;
+        }
     }
 }
