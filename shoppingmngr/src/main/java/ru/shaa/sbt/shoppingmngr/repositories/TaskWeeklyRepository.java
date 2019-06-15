@@ -46,10 +46,10 @@ public class TaskWeeklyRepository extends TaskBaseRepository {
 
         jdbcCall.execute(params);
     }
-/*
+
     @Override
     public void delete(int id) {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskPrmRunOnceDel");
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskPrmWeeklyDel");
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("Id_Task", id);
@@ -57,7 +57,7 @@ public class TaskWeeklyRepository extends TaskBaseRepository {
         jdbcCall.execute(params);
         super.delete(id);
     }
-*/
+
     @Override
     public TaskWeekly getById(int id) {
         TaskDTO taskDTO = loadTaskDTO(id);

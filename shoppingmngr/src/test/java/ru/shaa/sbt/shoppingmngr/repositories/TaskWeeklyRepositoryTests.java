@@ -66,20 +66,32 @@ public class TaskWeeklyRepositoryTests {
         for (int i = 0; i < taskN.getWeekDays().length; i++)
             Assertions.assertEquals(taskN.getWeekDays()[i], taskN.getWeekDays()[i], String.format("Не совпадает день: %d", i));
     }
-/*
+
     @Test
     void testDelete()
     {
-        TaskRunOnce taskN = new TaskRunOnce(null, LocalDateTime.parse("2019-07-08T00:00"), LocalDateTime.parse("2019-07-23T00:00"), new ScheduleType(1, "RUN_ONCE", ""), LocalDateTime.parse("2019-07-08T14:00"));
+        LocalTime[] weekDays = new LocalTime[7];
+        weekDays[0] = LocalTime.parse("01:00");
+        weekDays[1] = LocalTime.parse("01:01");
+        weekDays[2] = LocalTime.parse("01:02");
+        weekDays[3] = LocalTime.parse("01:03");
+        weekDays[4] = LocalTime.parse("01:04");
+        weekDays[5] = LocalTime.parse("01:05");
+        weekDays[6] = LocalTime.parse("01:06");
+        TaskWeekly taskN = new TaskWeekly(null
+                , LocalDateTime.parse("2019-07-08T00:00")
+                , LocalDateTime.parse("2019-07-23T00:00")
+                , new ScheduleType(1, "WEEKLY", "")
+                , weekDays
+        );
 
         taskRepository.save(taskN);
 
-        Assertions.assertNotNull(taskN.getId());
+        Assertions.assertNotNull(taskN.getId(), "У сохраненного задания отсутствует идентификатор");
 
         taskRepository.delete(taskN.getId());
 
-        TaskRunOnce taskR = taskRepository.getById(taskN.getId());
+        TaskWeekly taskR = taskRepository.getById(taskN.getId());
         Assertions.assertNull(taskR, "Удаление не произведено");
     }
-*/
 }
