@@ -72,11 +72,11 @@ public class TaskWeeklyRepository extends TaskBaseRepository {
 
     LocalTime[] loadPrmDTO(int idTask)
     {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("ex_TaskPrmRunOnce");
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("ex_TaskPrmWeekly");
         jdbcCall.returningResultSet("rs"
                 , ((rs, i) -> new TaskPrmWeeklyDTO(
                           rs.getInt("WeekDay")
-                        , rs.getTime("RunDtm").toLocalTime()
+                        , rs.getTime("RunTime").toLocalTime()
                 )
                 )
         );

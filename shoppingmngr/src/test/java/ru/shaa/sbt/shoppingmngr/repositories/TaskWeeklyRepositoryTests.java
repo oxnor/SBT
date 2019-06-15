@@ -19,13 +19,13 @@ public class TaskWeeklyRepositoryTests {
     @Autowired
     TaskWeeklyRepository taskRepository;
 
-/*    @Test
+    @Test
     void testGetById()
     {
-        TaskRunOnce task = null;
-        task = taskRepository.getById(4);
+        TaskWeekly task = null;
+        task = taskRepository.getById(7);
         Assertions.assertNotNull(task);
-    }*/
+    }
 
     @Test
     void testSave()
@@ -49,13 +49,22 @@ public class TaskWeeklyRepositoryTests {
 
         Assertions.assertNotNull(taskN.getId(), "У сохраненного задания отсутствует идентификатор");
 
-/*        TaskRunOnce taskR = taskRepository.getById(taskN.getId());
+        TaskWeekly taskR = taskRepository.getById(taskN.getId());
         Assertions.assertNotNull(taskN.getId(), "Задание отсутствует в базе");
         Assertions.assertEquals(taskN.getBegDate(), taskR.getBegDate(), "Не совпадает BegDate");
         Assertions.assertEquals(taskN.getEndDate(), taskR.getEndDate(), "Не совпадает EndDate");
         Assertions.assertEquals(taskN.getScheduleType().getCode(), taskR.getScheduleType().getCode(), "Не совпадает schType");
-        Assertions.assertEquals(taskN.getRunDateTime(), taskR.getRunDateTime(), "RunDateTime");
-        */
+
+        for (int i = 0; i < taskN.getWeekDays().length; i++)
+            Assertions.assertEquals(taskN.getWeekDays()[i], taskN.getWeekDays()[i], String.format("Не совпадает день: %d", i));
+
+        taskN.getWeekDays()[3] = null;
+
+        taskRepository.save(taskN);
+        taskR = taskRepository.getById(taskN.getId());
+
+        for (int i = 0; i < taskN.getWeekDays().length; i++)
+            Assertions.assertEquals(taskN.getWeekDays()[i], taskN.getWeekDays()[i], String.format("Не совпадает день: %d", i));
     }
 /*
     @Test
