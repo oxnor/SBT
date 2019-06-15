@@ -1,5 +1,6 @@
 package ru.shaa.sbt.shoppingmngr.repositories;
 
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,6 +13,7 @@ import ru.shaa.sbt.shoppingmngr.entities.TaskWeekly;
 
 import javax.sql.DataSource;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
@@ -55,27 +57,26 @@ public class TaskWeeklyRepository extends TaskBaseRepository {
         jdbcCall.execute(params);
         super.delete(id);
     }
-
+*/
     @Override
     public TaskWeekly getById(int id) {
         TaskDTO taskDTO = loadTaskDTO(id);
         if (taskDTO == null) return null;
-        TaskPrmRunOnceDTO prmDTO = loadPrmDTO(id);
+        LocalTime[] weekDays = loadPrmDTO(id);
         ScheduleType scheduleType = scheduleTypeRepository.getByCode(taskDTO.schType);
 
-        //TODO кидать исключение если prmDTO = null
-        TaskWeekly task = new TaskWeekly(id, taskDTO.begDate, taskDTO.endDate, scheduleType, prmDTO != null? prmDTO.runDtm: null);
+        TaskWeekly task = new TaskWeekly(id, taskDTO.begDate, taskDTO.endDate, scheduleType, weekDays);
 
         return  task;
     }
 
-    TaskPrmRunOnceDTO loadPrmDTO(int idTask)
+    LocalTime[] loadPrmDTO(int idTask)
     {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("ex_TaskPrmRunOnce");
         jdbcCall.returningResultSet("rs"
-                , ((rs, i) -> new TaskPrmRunOnceDTO(
-                        rs.getInt("Id_Task")
-                        , rs.getTimestamp("RunDtm").toLocalDateTime()
+                , ((rs, i) -> new TaskPrmWeeklyDTO(
+                          rs.getInt("WeekDay")
+                        , rs.getTime("RunDtm").toLocalTime()
                 )
                 )
         );
@@ -84,23 +85,23 @@ public class TaskWeeklyRepository extends TaskBaseRepository {
         params.addValue("Id_Task", idTask );
 
         Map<String, Object> out = jdbcCall.execute(params);
-        List<TaskPrmRunOnceDTO> prmDTO = (List<TaskPrmRunOnceDTO>)out.get("rs");
-        if (prmDTO != null && prmDTO.isEmpty())
-        {
-            return prmDTO.get(0);
-        }
-        return null;
-    }*/
+        List<TaskPrmWeeklyDTO> prmDTO = (List<TaskPrmWeeklyDTO>)out.get("rs");
+        LocalTime[] weekDay = new LocalTime[7];
+        for (TaskPrmWeeklyDTO dtm: prmDTO)
+            weekDay[dtm.weekDay] = dtm.runTime;
 
-    class TaskPrmRunOnceDTO
+        return weekDay;
+    }
+
+    class TaskPrmWeeklyDTO
     {
-        int idTask;
-        LocalDateTime runDtm;
+        int weekDay;
+        LocalTime runTime;
 
-        TaskPrmRunOnceDTO(int idTask, LocalDateTime runDtm)
+        TaskPrmWeeklyDTO(int weekDay, LocalTime runTime)
         {
-            this.idTask = idTask;
-            this.runDtm = runDtm;
+            this.weekDay = weekDay;
+            this.runTime = runTime;
         }
     }
 }
