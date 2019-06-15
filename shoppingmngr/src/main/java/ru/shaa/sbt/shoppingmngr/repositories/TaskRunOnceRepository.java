@@ -33,7 +33,7 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
     }
 
     private void PrmSave(TaskRunOnce task) {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("CrUpd");
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskPrmRunOnceCrUpd");
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
@@ -43,7 +43,7 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
     }
 
     @Override
-    public TaskRunOnce getById(int id) throws ScheduleTypeUnknownException {
+    public TaskRunOnce getById(int id) {
         TaskDTO taskDTO = loadTaskDTO(id);
 
         MapSqlParameterSource params = new MapSqlParameterSource();

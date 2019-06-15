@@ -56,7 +56,7 @@ public class TaskBaseRepository implements ITaskRepository {
 
 
     @Override
-    public TaskBase getById(int id) throws ScheduleTypeUnknownException {
+    public TaskBase getById(int id){
         return null;
     }
 
