@@ -43,6 +43,17 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
     }
 
     @Override
+    public void delete(int id) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskPrmRunOnceDel");
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("Id_Task", id);
+
+        jdbcCall.execute(params);
+        super.delete(id);
+    }
+
+    @Override
     public TaskRunOnce getById(int id) {
         TaskDTO taskDTO = loadTaskDTO(id);
 
