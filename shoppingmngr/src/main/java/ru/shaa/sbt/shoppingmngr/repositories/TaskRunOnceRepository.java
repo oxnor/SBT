@@ -78,7 +78,7 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
         );
 
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("Id_Task", idTask);
+        params.addValue("Id_Task", idTask );
 
         Map<String, Object> out = jdbcCall.execute(params);
         List<TaskPrmRunOnceDTO> prmDTO = (List<TaskPrmRunOnceDTO>)out.get("rs");
