@@ -39,7 +39,21 @@ public class TaskRunOnceRepositoryTests {
         Assertions.assertEquals(taskN.getEndDate(), taskR.getEndDate(), "Не совпадает EndDate");
         Assertions.assertEquals(taskN.getScheduleType().getCode(), taskR.getScheduleType().getCode(), "Не совпадает schType");
         Assertions.assertEquals(taskN.getRunDateTime(), taskR.getRunDateTime(), "RunDateTime");
+    }
 
+    @Test
+    void testDelete()
+    {
+        TaskRunOnce taskN = new TaskRunOnce(null, LocalDateTime.parse("2019-07-08T00:00"), LocalDateTime.parse("2019-07-23T00:00"), new ScheduleType(1, "RUN_ONCE", ""), LocalDateTime.parse("2019-07-08T14:00"));
+
+        taskRepository.save(taskN);
+
+        Assertions.assertNotNull(taskN.getId());
+
+        taskRepository.delete(taskN.getId());
+
+        TaskRunOnce taskR = taskRepository.getById(taskN.getId());
+        Assertions.assertNull(taskR, "Удаление не произведено");
     }
 
 }
