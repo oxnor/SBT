@@ -57,6 +57,7 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
     @Override
     public TaskRunOnce getById(int id) {
         TaskDTO taskDTO = loadTaskDTO(id);
+        if (taskDTO == null) return null;
         TaskPrmRunOnceDTO prmDTO = loadPrmDTO(id);
         ScheduleType scheduleType = scheduleTypeRepository.getByCode(taskDTO.schType);
 

@@ -34,6 +34,7 @@ public class ScheduleTypeRepository implements IScheduleTypeRepository {
 
     @Override
     public ScheduleType getByCode(String code) {
+        if (code == null) return null;
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("code", code);
         return jdbcTemplate.query("appsch.ex_SchTypes @SchTypeCode = :code", params, scheduleTypeRowMapper).get(0);
