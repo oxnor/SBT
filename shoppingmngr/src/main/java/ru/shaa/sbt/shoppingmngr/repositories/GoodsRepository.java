@@ -44,9 +44,37 @@ public class GoodsRepository implements IGoodsRepository {
     }
 
     @Override
-    public void save(Goods task) {
-
+    public void save(Goods goods) {
+        if (goods.getId() == null)
+            create(goods);
+        else
+            update(goods);
     }
+
+
+    private void create(Goods goods) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("GoodsCreate");
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("Caption", goods.getCaption());
+
+        Map<String, Object> out = jdbcCall.execute(params);
+
+        goods.setId((Integer) out.get("ID"));
+    }
+
+    private void update(Goods goods) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("GoodsUpdate");
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("ID", goods.getId());
+        params.addValue("Caption", goods.getCaption());
+
+        jdbcCall.execute(params);
+    }
+
 
     @Override
     public void delete(Goods task) {
