@@ -3,15 +3,12 @@ package ru.shaa.sbt.shoppingmngr.repositories;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.shaa.sbt.shoppingmngr.entities.ScheduleType;
 import ru.shaa.sbt.shoppingmngr.entities.TaskBase;
-import ru.shaa.sbt.shoppingmngr.entities.TaskRunOnce;
-import ru.shaa.sbt.shoppingmngr.repositories.TaskBaseRepository;
 
 import java.time.LocalDateTime;
 
@@ -53,7 +50,6 @@ public class TaskBaseRepositoryTests {
     @Test
     void testDelete()
     {
-        //TaskRunOnce task = new TaskRunOnce(null, LocalDateTime.parse("2019-07-08T00:00"), LocalDateTime.parse("2019-07-23T00:00"), new ScheduleType(1, "RUN_ONCE", ""), LocalDateTime.parse("2019-07-08T14:40"));
         TaskBase task = Mockito.mock(TaskBase.class);
         ArgumentCaptor<Integer> taskIDCaptor = ArgumentCaptor.forClass(Integer.class);
         when(task.getId()).thenReturn(null);
@@ -80,7 +76,6 @@ public class TaskBaseRepositoryTests {
     @Test
     void testUpdate()
     {
-        //TaskRunOnce task = new TaskRunOnce(null, LocalDateTime.parse("2019-07-08T00:00"), LocalDateTime.parse("2019-07-23T00:00"), new ScheduleType(1, "RUN_ONCE", ""), LocalDateTime.parse("2019-07-08T14:40"));
         TaskBase task = Mockito.mock(TaskBase.class);
         ArgumentCaptor<Integer> taskIDCaptor = ArgumentCaptor.forClass(Integer.class);
         when(task.getId()).thenReturn(null);

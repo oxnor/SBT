@@ -45,7 +45,7 @@ public class TaskBaseRepository implements ITaskRepository {
 
         Map<String, Object> out = jdbcCall.execute(params);
         List<TaskDTO> taskDTOList = (List<TaskDTO>)out.get("rs");
-        if (taskDTOList != null && taskDTOList.size() != 0)
+        if (taskDTOList != null && !taskDTOList.isEmpty())
         {
             return taskDTOList.get(0);
         }

@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.shaa.sbt.shoppingmngr.entities.ScheduleType;
 import ru.shaa.sbt.shoppingmngr.entities.TaskRunOnce;
-import ru.shaa.sbt.shoppingmngr.repositories.ITaskRepository;
-import ru.shaa.sbt.shoppingmngr.repositories.TaskRunOnceRepository;
 
 import java.time.LocalDateTime;
 
