@@ -41,7 +41,7 @@ public class TaskWeeklyRepositoryTests {
         TaskWeekly taskN = new TaskWeekly(null
                                          , LocalDateTime.parse("2019-07-08T00:00")
                                          , LocalDateTime.parse("2019-07-23T00:00")
-                                         , new ScheduleType(1, "WEEKLY", "")
+                                         , new ScheduleType(1, "Weekly", "")
                                          , weekDays
         );
 
@@ -81,7 +81,7 @@ public class TaskWeeklyRepositoryTests {
         TaskWeekly taskN = new TaskWeekly(null
                 , LocalDateTime.parse("2019-07-08T00:00")
                 , LocalDateTime.parse("2019-07-23T00:00")
-                , new ScheduleType(1, "WEEKLY", "")
+                , new ScheduleType(1, "Weekly", "")
                 , weekDays
         );
 
@@ -89,7 +89,7 @@ public class TaskWeeklyRepositoryTests {
 
         Assertions.assertNotNull(taskN.getId(), "У сохраненного задания отсутствует идентификатор");
 
-        taskRepository.delete(taskN.getId());
+        taskRepository.delete(taskN);
 
         TaskWeekly taskR = taskRepository.getById(taskN.getId());
         Assertions.assertNull(taskR, "Удаление не произведено");

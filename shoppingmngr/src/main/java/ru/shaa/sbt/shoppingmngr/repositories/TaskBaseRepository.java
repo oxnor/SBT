@@ -1,7 +1,6 @@
 package ru.shaa.sbt.shoppingmngr.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,8 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-@Component
-@Qualifier("TaskBaseRepository")
+@Component("TaskBase")
 public class TaskBaseRepository implements ITaskRepository {
     protected NamedParameterJdbcTemplate jdbcTemplate;
     protected DataSource dataSource;
@@ -57,7 +55,7 @@ public class TaskBaseRepository implements ITaskRepository {
 
     @Override
     public TaskBase getById(int id){
-        return null;
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -96,11 +94,11 @@ public class TaskBaseRepository implements ITaskRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(TaskBase task) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskDelete");
 
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("ID", id);
+        params.addValue("ID", task.getId());
 
         Map<String, Object> out = jdbcCall.execute(params);
     }

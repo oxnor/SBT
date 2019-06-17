@@ -20,7 +20,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 public class TaskBaseRepositoryTests {
     @Autowired
-    @Qualifier("TaskBaseRepository")
+    @Qualifier("TaskBase")
     TaskBaseRepository taskRepository;
 
     @Test
@@ -41,7 +41,7 @@ public class TaskBaseRepositoryTests {
         when(task.getId()).thenReturn(null);
         when(task.getBegDate()).thenReturn(LocalDateTime.parse("2019-07-08T00:00"));
         when(task.getEndDate()).thenReturn(LocalDateTime.parse("2019-07-23T00:00"));
-        when(task.getScheduleType()).thenReturn(new ScheduleType(1, "RUN_ONCE", ""));
+        when(task.getScheduleType()).thenReturn(new ScheduleType(1, "RunOnce", ""));
 
         taskRepository.save(task);
 
@@ -59,7 +59,7 @@ public class TaskBaseRepositoryTests {
         when(task.getId()).thenReturn(null);
         when(task.getBegDate()).thenReturn(LocalDateTime.parse("2019-07-08T00:00"));
         when(task.getEndDate()).thenReturn(LocalDateTime.parse("2019-07-23T00:00"));
-        when(task.getScheduleType()).thenReturn(new ScheduleType(1, "RUN_ONCE", ""));
+        when(task.getScheduleType()).thenReturn(new ScheduleType(1, "RunOnce", ""));
 
         taskRepository.save(task);
 
@@ -70,7 +70,8 @@ public class TaskBaseRepositoryTests {
         TaskBaseRepository.TaskDTO taskDTO = taskRepository.loadTaskDTO(taskId);
         Assertions.assertNotNull(taskDTO);
 
-        taskRepository.delete(taskId);
+        when(task.getId()).thenReturn(taskId);
+        taskRepository.delete(task);
 
         taskDTO = taskRepository.loadTaskDTO(taskId);
         Assertions.assertNull(taskDTO, "Удаление не произведено");
@@ -85,7 +86,7 @@ public class TaskBaseRepositoryTests {
         when(task.getId()).thenReturn(null);
         when(task.getBegDate()).thenReturn(LocalDateTime.parse("2019-07-08T00:00"));
         when(task.getEndDate()).thenReturn(LocalDateTime.parse("2019-07-23T00:00"));
-        when(task.getScheduleType()).thenReturn(new ScheduleType(1, "RUN_ONCE", ""));
+        when(task.getScheduleType()).thenReturn(new ScheduleType(1, "RunOnce", ""));
 
         taskRepository.save(task);
 
@@ -96,7 +97,7 @@ public class TaskBaseRepositoryTests {
         when(task.getId()).thenReturn(taskId);
         when(task.getBegDate()).thenReturn(LocalDateTime.parse("2019-08-08T00:00"));
         when(task.getEndDate()).thenReturn(LocalDateTime.parse("2019-08-23T00:00"));
-        when(task.getScheduleType()).thenReturn(new ScheduleType(1, "WEEKLY", ""));
+        when(task.getScheduleType()).thenReturn(new ScheduleType(1, "Weekly", ""));
 
         taskRepository.save(task);
 
@@ -106,6 +107,6 @@ public class TaskBaseRepositoryTests {
         Assertions.assertEquals(taskDTO.endDate, task.getEndDate(), "Не совпадает EndDate");
         Assertions.assertEquals(taskDTO.schType, task.getScheduleType().getCode(), "Не совпадает schType");
 
-        taskRepository.delete(task.getId());
+        taskRepository.delete(task);
     }
 }

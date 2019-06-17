@@ -1,7 +1,6 @@
 package ru.shaa.sbt.shoppingmngr.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -15,8 +14,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-@Component
-@Qualifier("TaskRunOnceRepository")
+@Component("RunOnce")
 public class TaskRunOnceRepository extends TaskBaseRepository {
     @Autowired
     IScheduleTypeRepository scheduleTypeRepository;
@@ -43,14 +41,14 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(TaskBase task) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskPrmRunOnceDel");
 
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("Id_Task", id);
+        params.addValue("Id_Task", task.getId());
 
         jdbcCall.execute(params);
-        super.delete(id);
+        super.delete(task);
     }
 
     @Override
@@ -82,7 +80,7 @@ public class TaskRunOnceRepository extends TaskBaseRepository {
 
         Map<String, Object> out = jdbcCall.execute(params);
         List<TaskPrmRunOnceDTO> prmDTO = (List<TaskPrmRunOnceDTO>)out.get("rs");
-        if (prmDTO != null && prmDTO.isEmpty())
+        if (prmDTO != null && !prmDTO.isEmpty())
         {
             return prmDTO.get(0);
         }

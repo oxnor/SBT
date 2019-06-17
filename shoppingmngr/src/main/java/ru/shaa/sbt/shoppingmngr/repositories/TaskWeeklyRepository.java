@@ -1,7 +1,6 @@
 package ru.shaa.sbt.shoppingmngr.repositories;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
@@ -15,8 +14,7 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
-@Component
-@Qualifier("TaskWeeklyRepository")
+@Component("Weekly")
 public class TaskWeeklyRepository extends TaskBaseRepository {
     @Autowired
     IScheduleTypeRepository scheduleTypeRepository;
@@ -46,14 +44,14 @@ public class TaskWeeklyRepository extends TaskBaseRepository {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(TaskBase task) {
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("appsch").withProcedureName("TaskPrmWeeklyDel");
 
         MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("Id_Task", id);
+        params.addValue("Id_Task", task.getId());
 
         jdbcCall.execute(params);
-        super.delete(id);
+        super.delete(task);
     }
 
     @Override
