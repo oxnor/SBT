@@ -52,7 +52,7 @@ public class TaskWeeklyRepositoryTests {
         Assertions.assertEquals(taskN.getScheduleType().getCode(), taskR.getScheduleType().getCode(), "Не совпадает schType");
 
         for (int i = 0; i < taskN.getWeekDays().length; i++)
-            Assertions.assertEquals(taskN.getWeekDays()[i], taskN.getWeekDays()[i], String.format("Не совпадает день: %d", i));
+            Assertions.assertEquals(taskN.getWeekDays()[i], taskR.getWeekDays()[i], String.format("Не совпадает день: %d", i));
 
         taskN.getWeekDays()[3] = null;
 
