@@ -77,7 +77,13 @@ public class GoodsRepository implements IGoodsRepository {
 
 
     @Override
-    public void delete(Goods task) {
+    public void delete(Goods goods) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("GoodsDelete");
 
+        MapSqlParameterSource params = new MapSqlParameterSource();
+
+        params.addValue("ID", goods.getId());
+
+        jdbcCall.execute(params);
     }
 }
