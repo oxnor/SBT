@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.shaa.sbt.shoppingmngr.entities.Goods;
 
-import java.time.LocalDateTime;
-
 @SpringBootTest
 public class IGoodsRepositoryTests {
     @Autowired

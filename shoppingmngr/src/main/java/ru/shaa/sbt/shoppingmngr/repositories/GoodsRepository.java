@@ -35,10 +35,10 @@ public class GoodsRepository implements IGoodsRepository {
         params.addValue("ID", id );
 
         Map<String, Object> out = jdbcCall.execute(params);
-        List<Goods> GoodsLst = (List<Goods>)out.get("rs");
-        if (GoodsLst != null && !GoodsLst.isEmpty())
+        List<Goods> goodsList = (List<Goods>)out.get("rs");
+        if (goodsList != null && !goodsList.isEmpty())
         {
-            return GoodsLst.get(0);
+            return goodsList.get(0);
         }
         return null;
     }
