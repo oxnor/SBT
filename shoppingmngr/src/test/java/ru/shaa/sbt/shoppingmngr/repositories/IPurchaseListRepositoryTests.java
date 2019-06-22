@@ -27,7 +27,7 @@ class IPurchaseListRepositoryTests {
     @Test
     void testCreate()
     {
-        PurchaseList purchaseListN = new PurchaseList(null, "8 марта", ownerRepository.getById(1));
+        PurchaseList purchaseListN = new PurchaseList(null, "8 марта", ownerRepository.getById(158));
 
         purchaseListRepository.save(purchaseListN);
 
@@ -37,13 +37,13 @@ class IPurchaseListRepositoryTests {
         Assertions.assertNotNull(purchaseListR, "Список отсутствует в базе");
         Assertions.assertEquals(purchaseListR.getId(), purchaseListN.getId(), "Не совпадает идентификатор");
         Assertions.assertEquals(purchaseListR.getCaption(), purchaseListN.getCaption(), "Не совпадает Caption");
-        //TODO Сравнение Owner
+        Assertions.assertEquals(purchaseListR.getOwner(), purchaseListN.getOwner(), "Не совпадает владелец");
     }
 
     @Test
     void testUpdate()
     {
-        PurchaseList purchaseListN = new PurchaseList(null, "8 марта", ownerRepository.getById(2));
+        PurchaseList purchaseListN = new PurchaseList(null, "8 марта", ownerRepository.getById(159));
 
         purchaseListRepository.save(purchaseListN);
 
@@ -55,12 +55,13 @@ class IPurchaseListRepositoryTests {
         Assertions.assertNotNull(purchaseListR1, "Список отсутствует в базе");
         Assertions.assertEquals(purchaseListR1.getId(), purchaseListN.getId(), "Не совпадает идентификатор");
         Assertions.assertEquals(purchaseListR1.getCaption(), purchaseListR.getCaption(), "Не совпадает Caption");
+        Assertions.assertEquals(purchaseListR.getOwner(), purchaseListN.getOwner(), "Не совпадает владелец");
     }
 
     @Test
     void testDelete()
     {
-        PurchaseList purchaseListN = new PurchaseList(null, "Новый год", ownerRepository.getById(2));
+        PurchaseList purchaseListN = new PurchaseList(null, "Новый год", ownerRepository.getById(158));
 
         purchaseListRepository.save(purchaseListN);
 

@@ -26,4 +26,8 @@ public class Owner {
         this.caption = caption;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.id.equals(((Owner)obj).id);
+    }
 }
