@@ -56,7 +56,7 @@ public class PurchaseListRepository implements IPurchaseListRepository {
 
 
     private void create(PurchaseList purchaseList) {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("PurchaseListCreate");
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("PrchListCreate");
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
@@ -69,7 +69,7 @@ public class PurchaseListRepository implements IPurchaseListRepository {
     }
 
     private void update(PurchaseList purchaseList) {
-        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("PurchaseListUpdate");
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("PrchListUpdate");
 
         MapSqlParameterSource params = new MapSqlParameterSource();
 
