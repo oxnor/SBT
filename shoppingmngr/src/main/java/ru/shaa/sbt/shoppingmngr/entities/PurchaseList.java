@@ -1,12 +1,14 @@
 package ru.shaa.sbt.shoppingmngr.entities;
 
-public class Owner {
+public class PurchaseList {
     Integer id;
     String caption;
+    Owner owner;
 
-    public Owner(Integer id, String caption) {
+    public PurchaseList(Integer id, String caption, Owner owner) {
         this.id = id;
         this.caption = caption;
+        this.owner = owner;
     }
 
     public Integer getId() {
@@ -26,8 +28,13 @@ public class Owner {
         this.caption = caption;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return this.id.equals(((Owner)obj).id);
+    public Owner getOwner() {
+        return owner;
     }
+
+    public void setOwner(Owner owner) {
+        this.owner = owner;
+    }
+
+
 }
