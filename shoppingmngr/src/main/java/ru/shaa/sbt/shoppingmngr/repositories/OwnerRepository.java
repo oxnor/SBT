@@ -35,10 +35,10 @@ public class OwnerRepository implements IOwnerRepository {
         params.addValue("ID", id );
 
         Map<String, Object> out = jdbcCall.execute(params);
-        List<Owner> OwnerList = (List<Owner>)out.get("rs");
-        if (OwnerList != null && !OwnerList.isEmpty())
+        List<Owner> ownerList = (List<Owner>)out.get("rs");
+        if (ownerList != null && !ownerList.isEmpty())
         {
-            return OwnerList.get(0);
+            return ownerList.get(0);
         }
         return null;
     }

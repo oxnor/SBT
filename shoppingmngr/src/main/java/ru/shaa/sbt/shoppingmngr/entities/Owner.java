@@ -28,6 +28,16 @@ public class Owner {
 
     @Override
     public boolean equals(Object obj) {
+        if (obj == null)
+            return false;
+        if (this.getClass() != obj.getClass())
+            return false;
+
         return this.id.equals(((Owner)obj).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 }

@@ -9,15 +9,15 @@ import ru.shaa.sbt.shoppingmngr.entities.Owner;
 @SpringBootTest
 public class IOwnerRepositoryTests {
     @Autowired
-    IOwnerRepository OwnerRepository;
+    IOwnerRepository ownerRepository;
 
     @Test
     void testGetById()
     {
-        Owner Owner = null;
-        Owner = OwnerRepository.getById(1);
-        Assertions.assertNotNull(Owner);
-        Assertions.assertNotNull(Owner.getId());
-        Assertions.assertNotNull(Owner.getCaption());
+        Owner owner = null;
+        owner = ownerRepository.getById(1);
+        Assertions.assertNotNull(owner);
+        Assertions.assertNotNull(owner.getId());
+        Assertions.assertNotNull(owner.getCaption());
     }
 }
