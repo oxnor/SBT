@@ -25,10 +25,22 @@ public class PlannedPurchaseRepository implements IPlannedPurchaseRepository {
         this.taskRepository = taskRepository;
     }
 
-
-
     @Override
     public PlannedPurchase getById(int id, PurchaseList purchaseList){
+        List<PlannedPurchase> plannedPurchaseList = loadPlannedPurchaseList(id, purchaseList);
+        if (plannedPurchaseList != null && !plannedPurchaseList.isEmpty())
+        {
+            return plannedPurchaseList.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public List<PlannedPurchase> getByPurchaseList(PurchaseList purchaseList){
+        return loadPlannedPurchaseList(null, purchaseList);
+    }
+
+    private List<PlannedPurchase> loadPlannedPurchaseList(Integer id, PurchaseList purchaseList){
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("ex_PrchPlans");
         jdbcCall.returningResultSet("rs"
                 , ((rs, i) -> {
@@ -49,15 +61,17 @@ public class PlannedPurchaseRepository implements IPlannedPurchaseRepository {
 
         MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue("ID", id );
+        params.addValue("Id_List", purchaseList.getId() );
 
         Map<String, Object> out = jdbcCall.execute(params);
         List<PlannedPurchase> plannedPurchaseList = (List<PlannedPurchase>)out.get("rs");
         if (plannedPurchaseList != null && !plannedPurchaseList.isEmpty())
         {
-            return plannedPurchaseList.get(0);
+            return plannedPurchaseList;
         }
         return null;
     }
+
 
     @Override
     public void save(PlannedPurchase plannedPurchase) {
