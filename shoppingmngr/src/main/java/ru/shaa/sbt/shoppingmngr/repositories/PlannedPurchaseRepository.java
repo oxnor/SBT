@@ -66,26 +66,26 @@ public class PlannedPurchaseRepository implements IPlannedPurchaseRepository {
 
         if (plannedPurchase.getId() == null)
             create(plannedPurchase);
-  /*      else
-            update(plannedPurchase);*/
+        else
+            update(plannedPurchase);
     }
 
 
-        private void create(PlannedPurchase plannedPurchase) {
-            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("PrchPlanCreate");
+    private void create(PlannedPurchase plannedPurchase) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("PrchPlanCreate");
 
-            MapSqlParameterSource params = new MapSqlParameterSource();
+        MapSqlParameterSource params = new MapSqlParameterSource();
 
-            params.addValue("Id_List", plannedPurchase.getPurchaseList().getId());
-            params.addValue("Id_Good", plannedPurchase.getGoods().getId());
-            params.addValue("Id_Task", plannedPurchase.getTask().getId());
-            params.addValue("IsCompleted", plannedPurchase.isCompleted());
-            params.addValue("IsDeleted", plannedPurchase.isDeleted());
+        params.addValue("Id_List", plannedPurchase.getPurchaseList().getId());
+        params.addValue("Id_Good", plannedPurchase.getGoods().getId());
+        params.addValue("Id_Task", plannedPurchase.getTask().getId());
+        params.addValue("IsCompleted", plannedPurchase.isCompleted());
+        params.addValue("IsDeleted", plannedPurchase.isDeleted());
 
-            Map<String, Object> out = jdbcCall.execute(params);
+        Map<String, Object> out = jdbcCall.execute(params);
 
-            plannedPurchase.setId((Integer) out.get("ID"));
-        }
+        plannedPurchase.setId((Integer) out.get("ID"));
+    }
 
         /*
         private void update(PurchaseList purchaseList) {
