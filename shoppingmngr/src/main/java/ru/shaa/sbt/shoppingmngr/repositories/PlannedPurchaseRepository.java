@@ -87,21 +87,19 @@ public class PlannedPurchaseRepository implements IPlannedPurchaseRepository {
         plannedPurchase.setId((Integer) out.get("ID"));
     }
 
-        /*
-        private void update(PurchaseList purchaseList) {
-            SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("PrchListUpdate");
+    private void update(PlannedPurchase plannedPurchase) {
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("PrchPlanUpdate");
 
-            MapSqlParameterSource params = new MapSqlParameterSource();
+        MapSqlParameterSource params = new MapSqlParameterSource();
 
-            params.addValue("ID", purchaseList.getId());
-            params.addValue("Caption", purchaseList.getCaption());
-            params.addValue("Id_Owner", purchaseList.getOwner().getId());
+        params.addValue("ID", plannedPurchase.getId());
+        params.addValue("Id_Task", plannedPurchase.getTask().getId());
+        params.addValue("IsCompleted", plannedPurchase.isCompleted());
+        params.addValue("IsDeleted", plannedPurchase.isDeleted());
 
-            jdbcCall.execute(params);
-        }
-
+        jdbcCall.execute(params);
     }
-*/
+
     @Override
     public void delete(PlannedPurchase plannedPurchase) {
         throw new UnsupportedOperationException();
