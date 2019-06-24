@@ -5,8 +5,10 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
 import ru.shaa.sbt.shoppingmngr.entities.PlannedPurchase;
+import ru.shaa.sbt.shoppingmngr.entities.PurchaseList;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Map;
 
 @Component
@@ -26,7 +28,34 @@ public class PlannedPurchaseRepository implements IPlannedPurchaseRepository {
 
 
     @Override
-    public PlannedPurchase getById(int id) {
+    public PlannedPurchase getById(int id, PurchaseList purchaseList){
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("ex_PrchPlans");
+        jdbcCall.returningResultSet("rs"
+                , ((rs, i) -> {
+                    if (!purchaseList.getId().equals(rs.getInt("Id_List")))
+                        throw new ViolationСonsistencyException("Идентификатор переданного списка и списка покупки не совпадает");
+
+                    return new PlannedPurchase(
+                            rs.getInt("ID")
+                            , purchaseList
+                            , goodsRepository.getById(rs.getInt("Id_Good"))
+                            , taskRepository.getById(rs.getInt("Id_Task"))
+                            , rs.getBoolean("IsCompleted")
+                            , rs.getBoolean("IsDeleted")
+                    );
+                }
+                )
+        );
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("ID", id );
+
+        Map<String, Object> out = jdbcCall.execute(params);
+        List<PlannedPurchase> plannedPurchaseList = (List<PlannedPurchase>)out.get("rs");
+        if (plannedPurchaseList != null && !plannedPurchaseList.isEmpty())
+        {
+            return plannedPurchaseList.get(0);
+        }
         return null;
     }
 
@@ -77,4 +106,5 @@ public class PlannedPurchaseRepository implements IPlannedPurchaseRepository {
     public void delete(PlannedPurchase plannedPurchase) {
         throw new UnsupportedOperationException();
     }
+
 }

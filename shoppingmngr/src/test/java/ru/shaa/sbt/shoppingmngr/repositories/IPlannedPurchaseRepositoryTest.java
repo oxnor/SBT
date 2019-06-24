@@ -33,4 +33,18 @@ public class IPlannedPurchaseRepositoryTest {
         Assertions.assertNotNull(plannedPurchase.getId(), "Отсутствует идентификатор");
     }
 
+    @Test
+    void testGetById()
+    {
+        PurchaseList purchaseListN = new PurchaseList(null, "8 марта", ownerRepository.getById(158));
+        purchaseListRepository.save(purchaseListN);
+        Goods goods = new Goods(null, "Музыкальная открытка");
+        TaskRunOnce taskN = new TaskRunOnce(null, LocalDateTime.parse("2019-11-08T00:00"), LocalDateTime.parse("2019-11-15T00:00"), new ScheduleType(1, "RunOnce", ""), LocalDateTime.parse("2019-11-08T18:00"));
+        PlannedPurchase plannedPurchaseN = new PlannedPurchase(null, purchaseListN, goods, taskN, false, false);
+
+        plannedPurchaseRepository.save(plannedPurchaseN);
+
+        PlannedPurchase plannedPurchaseR = plannedPurchaseRepository.getById(plannedPurchaseN.getId(), purchaseListN);
+        Assertions.assertEquals(plannedPurchaseN.getId(), plannedPurchaseR.getId());
+    }
 }
