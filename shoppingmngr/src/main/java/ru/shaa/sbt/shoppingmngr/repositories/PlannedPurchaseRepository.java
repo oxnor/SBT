@@ -64,12 +64,7 @@ public class PlannedPurchaseRepository implements IPlannedPurchaseRepository {
         params.addValue("Id_List", purchaseList.getId() );
 
         Map<String, Object> out = jdbcCall.execute(params);
-        List<PlannedPurchase> plannedPurchaseList = (List<PlannedPurchase>)out.get("rs");
-        if (plannedPurchaseList != null && !plannedPurchaseList.isEmpty())
-        {
-            return plannedPurchaseList;
-        }
-        return null;
+        return (List<PlannedPurchase>)out.get("rs");
     }
 
 

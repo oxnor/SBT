@@ -71,6 +71,17 @@ public class IPlannedPurchaseRepositoryTest {
         Assertions.assertEquals(l.size(), 2);
     }
 
+    @Test
+    void testGetByPurchaseListIfEmpty()
+    {
+        PurchaseList purchaseListN = new PurchaseList(null, "День рождения", ownerRepository.getById(158));
+        purchaseListRepository.save(purchaseListN);
+
+        List<PlannedPurchase> l = plannedPurchaseRepository.getByPurchaseList(purchaseListN);
+        Assertions.assertNotNull(l);
+        Assertions.assertEquals(l.size(), 0);
+    }
+
 
     @Test
     void testUpdate()
