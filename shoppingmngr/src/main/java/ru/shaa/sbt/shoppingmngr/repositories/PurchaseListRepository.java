@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Component;
+import ru.shaa.sbt.shoppingmngr.entities.PlannedPurchase;
 import ru.shaa.sbt.shoppingmngr.entities.PurchaseList;
 
 import javax.sql.DataSource;
@@ -14,12 +15,14 @@ import java.util.Map;
 public class PurchaseListRepository implements IPurchaseListRepository {
     protected DataSource dataSource;
     private IOwnerRepository ownerRepository;
+    private IPlannedPurchaseRepository plannedPurchaseRepository;
 
     @Autowired
-    public PurchaseListRepository(DataSource dataSource, IOwnerRepository ownerRepository)
+    public PurchaseListRepository(DataSource dataSource, IOwnerRepository ownerRepository, IPlannedPurchaseRepository plannedPurchaseRepository)
     {
         this.dataSource = dataSource;
         this.ownerRepository = ownerRepository;
+        this.plannedPurchaseRepository = plannedPurchaseRepository;
     }
 
     @Override
@@ -38,10 +41,12 @@ public class PurchaseListRepository implements IPurchaseListRepository {
         params.addValue("ID", id );
 
         Map<String, Object> out = jdbcCall.execute(params);
-        List<PurchaseList> purchaseListList = (List<PurchaseList>)out.get("rs");
-        if (purchaseListList != null && !purchaseListList.isEmpty())
+        List<PurchaseList> listOfPurchaseList = (List<PurchaseList>)out.get("rs");
+        if (!listOfPurchaseList.isEmpty())
         {
-            return purchaseListList.get(0);
+            PurchaseList purchaseList = listOfPurchaseList.get(0);
+            purchaseList.setPlannedPurchases(plannedPurchaseRepository.getByPurchaseList(purchaseList));
+            return purchaseList;
         }
         return null;
     }
@@ -52,6 +57,12 @@ public class PurchaseListRepository implements IPurchaseListRepository {
             create(purchaseList);
         else
             update(purchaseList);
+
+        // Псоле, т.к. к моменту сохранения планируемой покупки список должен уже существовать
+        for (PlannedPurchase p:
+                purchaseList.getPlannedPurchases()) {
+            plannedPurchaseRepository.save(p);
+        }
     }
 
 
@@ -79,7 +90,6 @@ public class PurchaseListRepository implements IPurchaseListRepository {
 
         jdbcCall.execute(params);
     }
-
 
     @Override
     public void delete(PurchaseList purchaseList) {
