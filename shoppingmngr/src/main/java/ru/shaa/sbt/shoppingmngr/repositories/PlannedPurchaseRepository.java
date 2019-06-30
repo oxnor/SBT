@@ -111,7 +111,12 @@ public class PlannedPurchaseRepository implements IPlannedPurchaseRepository {
 
     @Override
     public void delete(PlannedPurchase plannedPurchase) {
-        throw new UnsupportedOperationException();
+        SimpleJdbcCall jdbcCall = new SimpleJdbcCall(dataSource).withSchemaName("pchmgr").withProcedureName("PrchPlanDelete");
+
+        MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue("ID", plannedPurchase.getId());
+
+        jdbcCall.execute(params);
     }
 
 }
