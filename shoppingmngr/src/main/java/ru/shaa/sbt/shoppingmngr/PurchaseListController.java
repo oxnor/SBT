@@ -1,12 +1,12 @@
 package ru.shaa.sbt.shoppingmngr;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.shaa.sbt.shoppingmngr.entities.PlannedPurchase;
 import ru.shaa.sbt.shoppingmngr.entities.PurchaseList;
 import ru.shaa.sbt.shoppingmngr.repositories.IPurchaseListRepository;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/purchaselist")
@@ -19,8 +19,23 @@ public class PurchaseListController {
         this.purchaseListRepository = purchaseListRepository;
     }
 
-    @GetMapping
-    public PurchaseList getPurchaseList(@RequestParam int Id_List) {
-        return purchaseListRepository.getById(Id_List);
+    @GetMapping("/{id:[0-9]+}")
+    public PurchaseList getPurchaseList(@PathVariable("id") int idList) {
+        return purchaseListRepository.getById(idList);
     }
+
+    @GetMapping("/{id:[0-9]+}/planned/{idPlannedPurchase:[0-9]+}")
+    public Object getPlannedPurchase(@PathVariable("id") int idList, @PathVariable("idPlannedPurchase") Integer idPlannedPurchase) {
+        Object result = null;
+        if (idPlannedPurchase == null)
+            result = purchaseListRepository.getById(idList).getPlannedPurchases();
+
+        return result;
+    }
+
+    @GetMapping("/{id:[0-9]+}/planned")
+    public List<PlannedPurchase> getPlannedPurchaseList(@PathVariable("id") int idList) {
+        return purchaseListRepository.getById(idList).getPlannedPurchases();
+    }
+
 }
