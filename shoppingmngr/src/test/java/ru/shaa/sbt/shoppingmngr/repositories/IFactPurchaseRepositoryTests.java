@@ -55,17 +55,22 @@ public class IFactPurchaseRepositoryTests {
         factPurchaseRepository.save(factPurchaseN);
 
         List<FactPurchase> l = factPurchaseRepository.getByOwner(owner);
-        Assertions.assertEquals(l.size(), 2);
+        Assertions.assertTrue (l.size()>2);
     }
 
     @Test
-    void testGetByPurchaseListIfEmpty()
+    void testDelete()
     {
         Owner owner = ownerRepository.getById(158);
+        Goods goods = new Goods(null, "Табурет 1");
+        FactPurchase factPurchaseN = new FactPurchase(null, owner, goods, LocalDateTime.parse("2018-07-08T14:43"));
+        factPurchaseRepository.save(factPurchaseN);
 
-        List<FactPurchase> l = factPurchaseRepository.getByOwner(owner);
+        Assertions.assertNotNull(factPurchaseN.getId());
 
-        Assertions.assertNotNull(l);
-        Assertions.assertEquals(l.size(), 0);
+        factPurchaseRepository.delete(factPurchaseN);
+
+        FactPurchase factPurchaseR = factPurchaseRepository.getById(factPurchaseN.getId(), owner);
+        Assertions.assertNull(factPurchaseR, "Удаление не произведено");
     }
 }
