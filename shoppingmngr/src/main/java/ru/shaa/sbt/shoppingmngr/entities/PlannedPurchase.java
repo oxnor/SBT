@@ -1,10 +1,13 @@
 package ru.shaa.sbt.shoppingmngr.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * Планируемая покупка
  */
 public class PlannedPurchase {
     Integer id;
+    @JsonIgnore
     PurchaseList purchaseList;
     Goods goods;
     TaskBase task;  //TODO: заменить на ITask?
