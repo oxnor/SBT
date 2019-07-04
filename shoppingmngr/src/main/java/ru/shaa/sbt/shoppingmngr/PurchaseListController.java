@@ -29,6 +29,12 @@ public class PurchaseListController {
         Object result = null;
         if (idPlannedPurchase == null)
             result = purchaseListRepository.getById(idList).getPlannedPurchases();
+        else
+            for (PlannedPurchase p:
+                    purchaseListRepository.getById(idList).getPlannedPurchases()) {
+                if (p.getId() == idPlannedPurchase)
+                    result = p;
+            }
 
         return result;
     }
