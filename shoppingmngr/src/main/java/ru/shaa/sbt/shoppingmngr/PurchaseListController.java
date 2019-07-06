@@ -25,23 +25,35 @@ public class PurchaseListController {
     }
 
     @GetMapping("/{id:[0-9]+}")
-    public PurchaseList getPurchaseList(@PathVariable("id") int idList) {
-        return purchaseListRepository.getById(idList);
+    public ResponseEntity<PurchaseList> getPurchaseList(@PathVariable("id") int idList) {
+        PurchaseList purchaseList = purchaseListRepository.getById(idList);
+        if (purchaseList == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(purchaseList);
     }
 
     @GetMapping("/{id:[0-9]+}/planned/{idPlannedPurchase:[0-9]+}")
-    public Object getPlannedPurchase(@PathVariable("id") int idList, @PathVariable("idPlannedPurchase") Integer idPlannedPurchase) {
-        Object result = null;
-        if (idPlannedPurchase == null)
-            result = purchaseListRepository.getById(idList).getPlannedPurchases();
-        else
-            for (PlannedPurchase p:
-                    purchaseListRepository.getById(idList).getPlannedPurchases()) {
-                if (p.getId() == idPlannedPurchase)
-                    result = p;
-            }
+    public ResponseEntity<Object> getPlannedPurchase(@PathVariable("id") int idList, @PathVariable("idPlannedPurchase") Integer idPlannedPurchase) {
+        List<PlannedPurchase>  plannedPurchaseList = purchaseListRepository.getById(idList).getPlannedPurchases();
+        PlannedPurchase plannedPurchase = null;
 
-        return result;
+        if (plannedPurchaseList == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+        if (idPlannedPurchase == null)
+            return ResponseEntity.status(HttpStatus.OK).body(plannedPurchaseList);
+
+        for (PlannedPurchase p:
+                    plannedPurchaseList) {
+            if (p.getId() == idPlannedPurchase)
+                plannedPurchase = p;
+        }
+
+        if (plannedPurchase == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(plannedPurchase);
     }
 
     @DeleteMapping("/{id:[0-9]+}/planned/{idPlannedPurchase:[0-9]+}")
