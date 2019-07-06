@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public class PlannedPurchase {
     Integer id;
+
     @JsonIgnore
     PurchaseList purchaseList;
     Goods goods;
@@ -24,6 +25,9 @@ public class PlannedPurchase {
 
     public PurchaseList getPurchaseList() {
         return purchaseList;
+    }
+    public void setPurchaseList(PurchaseList purchaseList) {
+        this.purchaseList = purchaseList;
     }
 
     public Goods getGoods() {

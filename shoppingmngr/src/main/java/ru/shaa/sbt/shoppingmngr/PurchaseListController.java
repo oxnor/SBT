@@ -78,4 +78,17 @@ public class PurchaseListController {
         return purchaseListRepository.getById(idList).getPlannedPurchases();
     }
 
+    @PutMapping("/{id:[0-9]+}/planned")
+    public ResponseEntity<?> getPlannedPurchaseList(@PathVariable("id") int idList, @RequestBody PlannedPurchase plannedPurchase) {
+        PurchaseList purchaseList = purchaseListRepository.getById(idList);
+        if (purchaseList == null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+
+        plannedPurchase.setPurchaseList(purchaseList);
+        purchaseList.getPlannedPurchases().add(plannedPurchase);
+        purchaseListRepository.save(purchaseList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
 }
