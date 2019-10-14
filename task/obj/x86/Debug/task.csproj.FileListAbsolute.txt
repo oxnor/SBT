@@ -1,0 +1,16 @@
+C:\PMSOFT\ARybalkin\newDeveloper\task\bin\Debug\task.exe
+C:\PMSOFT\ARybalkin\newDeveloper\task\bin\Debug\task.pdb
+C:\PMSOFT\ARybalkin\newDeveloper\task\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\PMSOFT\ARybalkin\newDeveloper\task\obj\x86\Debug\task.Properties.Resources.resources
+C:\PMSOFT\ARybalkin\newDeveloper\task\obj\x86\Debug\ResGen.read.1.tlog
+C:\PMSOFT\ARybalkin\newDeveloper\task\obj\x86\Debug\ResGen.write.1.tlog
+C:\PMSOFT\ARybalkin\newDeveloper\task\obj\x86\Debug\task.exe
+C:\PMSOFT\ARybalkin\newDeveloper\task\obj\x86\Debug\task.pdb
+C:\PMSOFT\ARybalkin\newDeveloper\task\obj\x86\Debug\task.MainForm.resources
+C:\PMSOFT\ARybalkin\newDeveloper\task\obj\x86\Debug\task.NewBoardForm.resources
+H:\develop\NewDeveloper\task\obj\x86\Debug\task.exe
+H:\develop\NewDeveloper\task\obj\x86\Debug\task.pdb
+I:\develop\NewDeveloper\task\obj\x86\Debug\task.exe
+I:\develop\NewDeveloper\task\obj\x86\Debug\task.pdb
+C:\ARybalkin\NewDeveloper\task\obj\x86\Debug\task.exe
+C:\ARybalkin\NewDeveloper\task\obj\x86\Debug\task.pdb
